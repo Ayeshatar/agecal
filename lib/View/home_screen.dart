@@ -489,7 +489,7 @@ class HomeScreen extends GetView<HomeController> {
                                             child: Column(
                                               children: [
                                                 Text(
-                                                ('0'),
+                                                (controller.nextBirthdayMonth.value.toString()),
                                                   style: TextStyle(
                                                     color: AppColors.black,
                                                     fontSize: 30,
@@ -515,7 +515,7 @@ class HomeScreen extends GetView<HomeController> {
                                             child: Column(
                                               children: [
                                                 Text(
-                                                  ('0'),
+                                                  (controller.nextBirthdayDate.value.toString()),
                                                   style: TextStyle(
                                                     color: AppColors.black,
                                                     fontSize: 30,
