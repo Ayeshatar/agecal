@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:time_machine/time_machine.dart';
 import 'package:jiffy/jiffy.dart';
 
-
 class HomeController extends GetxController {
   final Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
   final RxString ageYears = "0".obs;
@@ -17,24 +16,18 @@ class HomeController extends GetxController {
   final RxString ageInHours = "0".obs;
   final RxString ageInMinutes = "0".obs;
   final RxString ageInSeconds = "0".obs;
-  // final RxString nextBirthdayMonth = "0".obs;
-  // final RxString nextBirthdayDate = "0".obs;
+  final RxString nextBirthdayMonth = "0".obs;
+  final RxString nextBirthdayDate = "0".obs;
 
   void calculateAge() {
     if (selectedDate.value != null) {
       LocalDateTime now = LocalDateTime.now();
 
-
       final birthdate = LocalDate(
         selectedDate.value!.year,
         selectedDate.value!.month,
         selectedDate.value!.day,
-
-
-
       );
-
-
 
       // LocalDate nextBirthday = LocalDate(now.year, birthdate.month, birthdate.day);
       //
@@ -56,9 +49,9 @@ class HomeController extends GetxController {
       // //
       // // Period difference = now.periodUntil(nextBirthday as LocalDateTime);
       // //
-      // // nextBirthdayMonth.value = remainingMonths.toString();
-      // // nextBirthdayDate.value = remainingDays.toString();
-
+      DateDuration duration= AgeCalculator.timeToNextBirthday(selectedDate.value!);
+      nextBirthdayMonth.value = duration.months.toString();
+      nextBirthdayDate.value = duration.days.toString();
 
       LocalDateTime dob = LocalDateTime.dateTime(selectedDate.value!);
       Period diff = now.periodSince(dob);
@@ -72,47 +65,35 @@ class HomeController extends GetxController {
       ageInMinutes.value = convertDiff(Unit.minute);
       ageInSeconds.value = convertDiff(Unit.second);
 
-
       print(Jiffy.parse("2018/01/29")
           .diff(Jiffy.parse("1994/01/17"), unit: Unit.month)
           .toString());
     }
   }
 
-
   static int daysDifferenceBetween(DateTime from, DateTime to) {
     from = DateTime(from.year, from.month, from.day);
     to = DateTime(to.year, to.month, to.day);
-    return (to
-        .difference(from)
-        .inHours / 24).round();
+    return (to.difference(from).inHours / 24).round();
   }
 
   static int minutesBetween(DateTime from, DateTime to) {
     from = DateTime(from.year, from.month, from.day);
     to = DateTime(to.year, to.month, to.day);
-    return (to
-        .difference(from)
-        .inMinutes).round();
+    return (to.difference(from).inMinutes).round();
   }
 
   static int secondsBetween(DateTime from, DateTime to) {
     from = DateTime(from.year, from.month, from.day);
     to = DateTime(to.year, to.month, to.day);
-    return (to
-        .difference(from)
-        .inSeconds).round();
+    return (to.difference(from).inSeconds).round();
   }
 
   static int hoursBetween(DateTime from, DateTime to) {
     from = DateTime(from.year, from.month, from.day);
     to = DateTime(to.year, to.month, to.day);
-    return (to
-        .difference(from)
-        .inHours).round();
+    return (to.difference(from).inHours).round();
   }
-
-
 
   String convertDiff(Unit unit) {
     DateFormat dateFormat = DateFormat("yyyy/MM/dd");
@@ -121,4 +102,3 @@ class HomeController extends GetxController {
         .toString();
   }
 }
-
